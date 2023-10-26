@@ -40,7 +40,7 @@ tar -xzvf main.tar.gz
 
 # copy data from the primary node to the replica node.
 sudo pg_basebackup -h 10.15.0.181 -U vmo -X stream -C -S replica_1  -R -W -D /var/lib/postgresql/16/main/
-sudo pg_basebackup -h 10.15.0.182 -U vmo -X stream -C -S replica_2  -R -W -D /var/lib/postgresql/16/main/
+sudo pg_basebackup -h 10.15.0.181 -U vmo -X stream -C -S replica_2  -R -W -D /var/lib/postgresql/16/main/
 
 ## Grant ownership of the data directory to the postgres user.
 sudo chown postgres -R /var/lib/postgresql/16/main/
