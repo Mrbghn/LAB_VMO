@@ -1,4 +1,4 @@
-# VM1 
+VM1 
 ## sudo nano /etc/hosts
 ## 10.15.0.181 postgres01 
 ## 10.15.0.182 postgres02 
@@ -9,7 +9,7 @@
 ## sudo ufw enable
 ## sudo ufw status
 
-# Install PostgreSQL for 3 server
+Install PostgreSQL for 3 server
 ## sudo apt-get install wget gnupg2 lsb-release curl apt-transport-https ca-certificates -y
 ## curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/pgdg.gpg > /dev/null 2>&1 
 ## sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/pgdg.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -19,7 +19,7 @@
 ## sudo systemctl status postgresql
 ## sudo apt-get install postgresql-plperl-15 -y
 
-# VM1 
+VM1 
 ## cd /var/lib/postgresql
 ## sudo -u postgres psql
 ### CREATE USER bucardo WITH SUPERUSER;
@@ -33,39 +33,39 @@
 ###   city VARCHAR(255)
 ### );
 
-# for each server Ubuntu VM:
+for each server Ubuntu VM:
 ## sudo nano /etc/postgresql/15/main/postgresql.conf
-# VM1
+VM1
 ### listen_addresses = 'localhost, 10.15.0.181'
-# VM2
+VM2
 ### listen_addresses = 'localhost, 10.15.0.182'
-# VM3
+VM3
 ### listen_addresses = 'localhost, 10.15.0.183'
 
-# VM1
+VM1
 ## sudo nano /etc/postgresql/15/main/pg_hba.conf
 Local connection and bucardo user
 ### local    all             all                                    trust
 ### local    all             bucardo                                trust
 
-# Bucardo user remote connections
+Bucardo user remote connections
 ### host    all             postgres         10.15.0.183/24         trust
 ### host    all             bucardo          10.15.0.183/24         trust
 ### host    all             postgres         10.15.0.182/24         trust
 ### host    all             bucardo          10.15.0.182/24         trust
 similar with all VM remain
 
-# for all VM
+for all VM
 ## sudo systemctl restart postgresql
 ## ss -tulpn | grep postgres # check port 5432
 
-# VM1
+VM1
 ## sudo -u postgres psql
 ## sudo -u postgres psql -U bucardo -h 10.15.0.182
 ## sudo -u postgres psql -U bucardo -h 10.15.0.183
-### similar with all VM remain
+similar with all VM remain
 
-# VM1
+VM1
 ## sudo apt-get install make libdbix-safe-perl libboolean-perl libdbd-mock-perl libdbd-pg-perl libanyevent-dbd-pg-perl libpg-hstore-perl libpgobject-perl libpod-parser-perl libencode-locale-perl -y
 ## sudo wget -q https://bucardo.org/downloads/Bucardo-5.6.0.tar.gz
 ## tar xf Bucardo-5.6.0.tar.gz && cd Bucardo-*/
