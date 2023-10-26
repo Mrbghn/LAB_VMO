@@ -1,7 +1,8 @@
 # MASTER Node
 
-## login postgres
+## login postgres and add user
 sudo -u postgres psql
+CREATE ROLE vmo WITH REPLICATION LOGIN PASSWORD 'mrbghn227';
 
 ## sudo nano /etc/postgresql/16/main/postgresql.conf
 
@@ -10,8 +11,8 @@ wal_level = logical
 wal_log_hints = on
 
 ## sudo nano /etc/postgresql/16/main/pg_hba.conf
-host    all             postgres         10.15.0.182/32        trust
-host    all             postgres         10.15.0.183/32        trust
+host    replication             vmo         10.15.0.182/32        trust
+host    replication             vmo         10.15.0.183/32        trust
 
 ## Restart PostgresSQL
 sudo systemctl restart postgresql
@@ -36,6 +37,10 @@ sudo su
 cp ~/main.tar.gz /var/lib/postgresql/16/
 rm -rf main/
 tar -xzvf main.tar.gz
+
+# copy data from the primary node to the replica node.
+sudo pg_basebackup -h 10.15.0.182 -U replica_user -X stream -C -S replica_1  -R -W -D /var/lib/postgresql/16/main/
+sudo pg_basebackup -h 10.15.0.183 -U replica_user -X stream -C -S replica_2  -R -W -D /var/lib/postgresql/16/main/
 
 ## Grant ownership of the data directory to the postgres user.
 sudo chown postgres -R /var/lib/postgresql/16/main/
