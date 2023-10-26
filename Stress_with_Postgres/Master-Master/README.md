@@ -11,13 +11,13 @@ sudo ufw status
 
 ## Install PostgreSQL for 3 server
 sudo apt-get install wget gnupg2 lsb-release curl apt-transport-https ca-certificates -y
-curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/pgdg.gpg > /dev/null 2>&1
-sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/pgdg.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-sudo apt update
-sudo apt install postgresql-15
-sudo systemctl is-enabled postgresql
-sudo systemctl status postgresql
-sudo apt-get install postgresql-plperl-15 -y
+curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/pgdg.gpg > /dev/null 2>&1 &&
+sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/pgdg.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' &&
+sudo apt update &&
+sudo apt install postgresql-15 &&
+sudo systemctl is-enabled postgresql &&
+sudo systemctl status postgresql &&
+sudo apt-get install postgresql-plperl-15 -y &&
 
 # VM1 
 cd /var/lib/postgresql
