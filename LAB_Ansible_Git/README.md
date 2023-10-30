@@ -13,6 +13,10 @@ virtualenv --upgrade-embed-wheels
 virtualenv --reset-app-data
 python3.12 -m pip install --upgrade setuptools
 
+# Install Ansible with pip
+python3.12 -m pip install ansible
+ansible --version
+
 # Create folder for Ansible
 mkdir ~/Desktop/ansible-playbook
 cd ~/Desktop/ansible-playbook
