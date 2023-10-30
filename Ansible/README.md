@@ -35,3 +35,8 @@ ansible-playbook update.yml
 ansible-playbook -i inventory.ini update.yml
 (*) inventory.ini same content like /etc/ansible/hosts
 
+# Copy file from VM to Local Machine
+ansible server1 -i <path_to_inventory_file .ini> -b -m fetch -a "src=<path/on/VM> dest=<path/on/local>"
+
+# Copy file from Local Machine to VM
+ansible server1 -i <path_to_inventory_file .ini> -b -m copy -a "src=<path/on/local> dest=<path/on/VM>"
