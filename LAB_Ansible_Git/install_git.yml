@@ -1,0 +1,20 @@
+- name: Install Git
+  hosts: servers
+  gather_facts: false
+  remote_user: admin
+  become: true
+  tasks:
+    - name: Install base GIT
+      shell: sudo apt-get update && sudo apt-get install libz-dev libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake gcc curl -y
+     
+    - name: Create tmp folder
+      shell: cd /home/admin && mkdir tmp
+        
+    - name: Download Git from internet
+      shell: cd /home/admin/tmp && curl -o git.tar.gz https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.42.0.tar.gz
+
+    - name: Extract Git tarball
+      shell: cd /home/admin/tmp && tar -zxvf git.tar.gz
+
+    - name: Install Git from source
+      shell: cd /home/admin/tmp/git-* && make prefix=/usr/local all && sudo make prefix=/usr/local install && exec bash
