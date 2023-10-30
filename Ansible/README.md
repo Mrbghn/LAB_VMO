@@ -40,3 +40,35 @@ ansible server1 -i <path_to_inventory_file .ini> -b -m fetch -a "src=<path/on/VM
 
 # Copy file from Local Machine to VM
 ansible server1 -i <path_to_inventory_file .ini> -b -m copy -a "src=<path/on/local> dest=<path/on/VM>"
+
+# Run command only each VM
+ansible server1 -b -m shell -a "apt-get update"
+
+# Run playbook for specific server
+ansible-playbook --limit=server1 update.yml
+
+# About edit file with command like "nano","vim" on server using Ansible
+That NOT recommand, but can use some thing:
+## Add new line to file
+-----------------------------------------
+- name: Edit file on server1
+  hosts: server1
+  become: true
+  tasks:
+    - name: Edit file
+      lineinfile:
+        path: /path/to/file.txt
+        line: "New line to add or modify"
+-----------------------------------------
+## Modify an existing line in a file
+-----------------------------------------
+- name: Edit file on server1
+  hosts: server1
+  become: true
+  tasks:
+    - name: Edit file
+      replace:
+        path: /path/to/file.txt
+        regexp: '^Old line to modify$'
+        line: "New line to replace the old line"
+-----------------------------------------
